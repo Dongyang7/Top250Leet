@@ -32,21 +32,21 @@ var solve = function(playground) {
   for (let i = 0; i < playground.length; i += 1) {
     if (playground[i][0] === "O") {
       border.push([i, 0]);
-      playground[i][0] = "#";
+      //   playground[i][0] = "#";
     }
     if (playground[i][width - 1] === "O") {
       border.push([i, width - 1]);
-      playground[i][width - 1] = "#";
+      //   playground[i][width - 1] = "#";
     }
   }
   for (let i = 0; i < playground[0].length; i += 1) {
     if (playground[0][i] === "O") {
       border.push([0, i]);
-      playground[0][i] = "#";
+      //   playground[0][i] = "#";
     }
     if (playground[height - 1][i] === "O") {
       border.push([height - 1, i]);
-      playground[height - 1][i] = "#";
+      //   playground[height - 1][i] = "#";
     }
   }
   console.log(playground);
@@ -64,9 +64,8 @@ var solve = function(playground) {
 };
 
 solve([
-  ["X", "X", "X", "X"],
-  ["X", "O", "O", "X"],
-  ["X", "X", "O", "X"],
-  ["X", "O", "X", "X"]
+  ["O", "O", "O"],
+  ["O", "O", "O"],
+  ["O", "O", "O"]
 ]);
 // @lc code=end
