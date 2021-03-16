@@ -10,7 +10,7 @@
  * @return {number}
  */
 
-var numIslands = function(grid) {
+var numIslands = function (grid) {
   const isValideIndex = (row, col) => {
     if (row < 0 || col < 0 || row >= grid.length || col >= grid[0].length)
       return false;
@@ -73,6 +73,31 @@ var numIslands = function(grid) {
       currentLevel = nextLevel;
     }
     res += 1;
+  }
+  return res;
+};
+
+// 2021 redo
+
+var numIslands = function (grid) {
+  if (!grid || !grid.length || !grid[0].length) return 0;
+  let [m, n, res] = [grid.length, grid[0].length, 0];
+  const dfs = (i, j) => {
+    if (i >= 0 && i < m && j >= 0 && j < n && grid[i][j] == 1) {
+      grid[i][j] = "#";
+      dfs(i - 1, j);
+      dfs(i + 1, j);
+      dfs(i, j - 1);
+      dfs(i, j + 1);
+    }
+  };
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      if (grid[i][j] == 1) {
+        res++;
+        dfs(i, j);
+      }
+    }
   }
   return res;
 };

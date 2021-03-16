@@ -20,7 +20,7 @@ var uniquePaths = function (m, n) {
   return dp[m - 1][n - 1];
 };
 
-//可以用一个一位数组来作为dp，current dp[j] stores the value of dp[i - 1][j], and dp[j-1] stores the value of dp[i][j-1]
+//可以用一个一维数组来作为dp，current dp[j] stores the value of dp[i - 1][j], and dp[j-1] stores the value of dp[i][j-1]
 var uniquePaths = function (m, n) {
   const dp = new Array(n).fill(1);
   for (let i = 1; i < m; i++) {
