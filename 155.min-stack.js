@@ -50,13 +50,24 @@ MinStack.prototype.top = function () {
 MinStack.prototype.getMin = function () {
   return this.minStack[this.minStack.length - 1];
 };
-
-/**
- * Your MinStack object will be instantiated and called as such:
- * var obj = new MinStack()
- * obj.push(x)
- * obj.pop()
- * var param_3 = obj.top()
- * var param_4 = obj.getMin()
- */
-// @lc code=end
+/******* Method II use a 2D array/stack to store the min as 2nd value ************** */
+var MinStack = function () {
+  this.stack = [];
+};
+MinStack.prototype.push = function (x) {
+  this.stack.push([
+    x,
+    this.stack.length === 0
+      ? x
+      : Math.min(x, this.stack[this.stack.length - 1][1]),
+  ]);
+};
+MinStack.prototype.pop = function () {
+  this.stack.pop();
+};
+MinStack.prototype.top = function () {
+  return this.stack[this.stack.length - 1][0];
+};
+MinStack.prototype.getMin = function () {
+  return this.stack[this.stack.length - 1][1];
+};
