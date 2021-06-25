@@ -16,7 +16,7 @@
  * @param {TreeNode} root
  * @return {number[][]}
  */
-var zigzagLevelOrder = function(root) {
+var zigzagLevelOrder = function (root) {
   if (root === null) return [];
   const resArr = [];
   let currentLevel = [root];
@@ -48,5 +48,35 @@ var zigzagLevelOrder = function(root) {
     isEvenLevel = !isEvenLevel;
   }
   return resArr;
+};
+// 基础的用queue实现BFS，和102题唯一的区别就是判断是否reverse，如果是的话就从array头部unshift
+var zigzagLevelOrder = function (root) {
+  const res = [];
+  if (!root) return res;
+  const queue = [root];
+  let [levelRes, reverse, childNodeNum] = [[], false, 0];
+  while (queue.length > 0) {
+    let curNode = queue.shift();
+    if (reverse) {
+      levelRes.unshift(curNode.val);
+    } else {
+      levelRes.push(curNode.val);
+    }
+    if (curNode.left) {
+      queue.push(curNode.left);
+      childNodeNum++;
+    }
+    if (curNode.right) {
+      queue.push(curNode.right);
+      childNodeNum++;
+    }
+    if (queue.length === childNodeNum) {
+      res.push(levelRes);
+      reverse = !reverse;
+      childNodeNum = 0;
+      levelRes = [];
+    }
+  }
+  return res;
 };
 // @lc code=end

@@ -66,7 +66,8 @@ MinStack.prototype.pop = function () {
   this.stack.pop();
 };
 MinStack.prototype.top = function () {
-  return this.stack[this.stack.length - 1][0];
+  if (this.stack.length > 0) return this.stack[this.stack.length - 1][0];
+  else return null;
 };
 MinStack.prototype.getMin = function () {
   return this.stack[this.stack.length - 1][1];

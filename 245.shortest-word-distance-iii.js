@@ -1,8 +1,7 @@
 /**
- * @param {string[]} wordsDict
- * @param {string} word1
- * @param {string} word2
- * @return {number}
+Given an array of strings wordsDict and two strings that already exist in the array word1 and word2, return the shortest distance between these two words in the list.
+
+Note that word1 and word2 may be the same. It is guaranteed that they represent two individual words in the list.
  */
 var shortestWordDistance = function (wordsDict, word1, word2) {
   for (let i = 0; i < wordsDict.length; i++) {
