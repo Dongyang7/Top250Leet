@@ -19,28 +19,28 @@
  * @return {Node}
  */
 // Map object can store object as key, in this case we store the random node as key, and the corresponding index as value
-// var copyRandomList = function (head) {
-//   if (!head) return null;
-//   const listArr = [];
-//   const newListArr = [];
-//   const randomIdxMap = new Map();
-//   let n = 0;
-//   while (head) {
-//     listArr.push(head);
-//     let newNode = new Node(head.val, null, null);
-//     newListArr.push(newNode);
-//     randomIdxMap.set(head, n);
-//     head = head.next;
-//     n++;
-//   }
-//   for (let i = 0; i < n; i++) {
-//     newListArr[i].next = i + 1 >= n ? null : newListArr[i + 1];
-//     if (listArr[i].random) {
-//       newListArr[i].random = newListArr[randomIdxMap.get(listArr[i].random)];
-//     }
-//   }
-//   return newListArr[0];
-// };
+var copyRandomList = function (head) {
+  if (!head) return null;
+  const listArr = [];
+  const newListArr = [];
+  const randomIdxMap = new Map();
+  let n = 0;
+  while (head) {
+    listArr.push(head);
+    let newNode = new Node(head.val, null, null);
+    newListArr.push(newNode);
+    randomIdxMap.set(head, n);
+    head = head.next;
+    n++;
+  }
+  for (let i = 0; i < n; i++) {
+    newListArr[i].next = i + 1 >= n ? null : newListArr[i + 1];
+    if (listArr[i].random) {
+      newListArr[i].random = newListArr[randomIdxMap.get(listArr[i].random)];
+    }
+  }
+  return newListArr[0];
+};
 // 上面的代码我们使用了两个array分别来存放旧的和新的list，同时还有一个map来map旧的node到idx上。我们完全可以直接用一个map替代这三个，map的key是旧的node，value就是新的node。
 function Node(val, next, random) {
   this.val = val;

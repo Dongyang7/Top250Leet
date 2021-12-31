@@ -101,4 +101,80 @@ var numIslands = function (grid) {
   }
   return res;
 };
+// union find
+var numIslands = function (grid) {
+  class UnionFind {
+    constructor(array) {
+      let [m, n] = [array.length, array[0].length];
+      this.parent = Array(m * n);
+      this.count = 0;
+      for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+          if (array[i][j] === "1") {
+            this.parent[i * n + j] = i * n + j;
+            this.count++;
+          }
+        }
+      }
+    }
+    find(idx) {
+      if (this.parent[idx] >= 0 && this.parent[idx] !== idx) {
+        this.parent[idx] = this.find(this.parent[idx]);
+        return this.parent[idx];
+      }
+      return idx;
+    }
+    union(idx1, idx2) {
+      let [parent1, parent2] = [this.find(idx1), this.find(idx2)];
+      if (parent1 !== parent2) {
+        if (this.parent[parent1] >= 0 && this.parent[parent2] >= 0) {
+          this.parent[parent1] = -2;
+          this.parent[parent2] = parent1;
+        } else if (this.parent[parent1] >= 0 && this.parent[parent2] < 0) {
+          this.parent[parent1] = parent2;
+          this.parent[parent2]--;
+        } else if (this.parent[parent2] >= 0 && this.parent[parent1] < 0) {
+          this.parent[parent2] = parent1;
+          this.parent[parent1]--;
+        } else if (this.parent[parent2] < 0 && this.parent[parent1] < 0) {
+          if (this.parent[parent2] < this.parent[parent1]) {
+            this.parent[parent2] += this.parent[parent1];
+            this.parent[parent1] = parent2;
+          } else {
+            this.parent[parent1] += this.parent[parent2];
+            this.parent[parent2] = parent1;
+          }
+        }
+        this.count--;
+      }
+    }
+  }
+  let uf = new UnionFind(grid);
+  let [m, n] = [grid.length, grid[0].length];
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      if (grid[i][j] === "1") {
+        grid[i][j] = "#";
+        let adjList = [
+          [i - 1, j],
+          [i + 1, j],
+          [i, j - 1],
+          [i, j + 1],
+        ];
+        for (let [row, col] of adjList) {
+          if (
+            row >= 0 &&
+            row < m &&
+            col >= 0 &&
+            col < n &&
+            grid[row][col] === "1"
+          ) {
+            uf.union(i * n + j, row * n + col);
+          }
+        }
+      }
+    }
+  }
+  return uf.count;
+};
 // @lc code=end

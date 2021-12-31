@@ -19,6 +19,7 @@ var searchRange = function (nums, target) {
     while (start + 1 < end) {
       let mid = Math.floor((start + end) / 2);
       if (nums[mid] < curTarget) {
+        // this makes sure first occurance of target is inside range [start, end] inclusively.
         start = mid;
       } else {
         end = mid;

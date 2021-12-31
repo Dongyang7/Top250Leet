@@ -10,43 +10,37 @@
  * @param {string} end
  * @return {boolean}
  */
+// 这种找规律的题。。。被踩的多很正常。。。
 var canTransform = function (start, end) {
-  let used = new Set();
-  for (let i = 0; i < start.length; i++) {
-    if (start[i] !== end[i]) {
-      if (start[i] === "R") {
-        if (
-          end[i] === "X" &&
-          i + 1 < start.length &&
-          end[i + 1] === "R" &&
-          start[i + 1] === "X"
-        ) {
-          used.add([i, i + 1]);
-          i++;
-          continue;
-        }
-        return false;
+  let idx1 = (idx2 = 0);
+  if (start.length !== end.length) return false;
+  while (idx1 < start.length || idx2 < start.length) {
+    if (idx1 === start.length) {
+      if (end[idx2] !== "X") return false;
+      idx2++;
+    } else if (idx2 === start.length) {
+      if (start[idx1] !== "X") return false;
+      idx1++;
+    } else if (start[idx1] === "R") {
+      if (end[idx2] === "R") {
+        if (idx1 > idx2) return false;
+        idx1++;
+        idx2++;
+      } else if (end[idx2] === "L") return false;
+      else idx2++;
+    } else if (start[idx1] === "L") {
+      if (end[idx2] === "L") {
+        if (idx1 < idx2) return false;
+        idx1++;
+        idx2++;
+      } else if (end[idx2] === "R") return false;
+      else idx2++;
+    } else {
+      if (start[idx1] === "X") {
+        idx1++;
       }
-      if (start[i] === "L") {
-        if (
-          end[i] === "X" &&
-          i - 1 >= 0 &&
-          !used.has(i - 1) &&
-          end[i - 1] === "L" &&
-          start[i - 1] === "X"
-        ) {
-          used.add([i - 1, i]);
-          continue;
-        }
-        return false;
-      }
-      if (start[i] === "X") {
-        if (
-          end[i] === "R" ||
-          (end[i] === "L" && start[i + 1] !== "L") ||
-          end[i + 1] !== "X"
-        )
-          return false;
+      if (end[idx2] === "X") {
+        idx2++;
       }
     }
   }

@@ -62,6 +62,7 @@ var wallsAndGates = function (rooms) {
     let curPos = queue.shift();
     for (let [r, c] of getAdjcentRooms(curPos)) {
       if (r >= 0 && r < m && c >= 0 && c < n && rooms[r][c] === ROOM) {
+        // rooms[r][c] === ROOM这一步保证了已经write了的cell不会被再次write
         rooms[r][c] = rooms[curPos[0]][curPos[1]] + 1;
         queue.push([r, c]);
       }

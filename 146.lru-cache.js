@@ -118,4 +118,60 @@ LRUCache.prototype.put = function (key, value) {
  * var param_1 = obj.get(key)
  * obj.put(key,value)
  */
+// use double linked list, got TLE when use Object.keys, I changed to use this.size then it's good
+class DoubleLinkedList {
+  constructor(val, prev, next) {
+    this.val = val;
+    this.prev = prev;
+    this.next = next;
+  }
+}
+var LRUCache = function (capacity) {
+  this.capacity = capacity;
+  this.start = new DoubleLinkedList(null, null, null);
+  this.end = new DoubleLinkedList(null, this.start, null);
+  this.start.next = this.end;
+  this.map = {};
+  this.size = 0;
+};
+LRUCache.prototype.get = function (key) {
+  let curNode = this.map[key];
+  if (curNode) {
+    curNode.prev.next = curNode.next;
+    curNode.next.prev = curNode.prev;
+    curNode.prev = this.end.prev;
+    curNode.next = this.end;
+    this.end.prev.next = curNode;
+    this.end.prev = curNode;
+    return curNode.val[1];
+  }
+  return -1;
+};
+LRUCache.prototype.put = function (key, value) {
+  if (this.map[key]) {
+    let curNode = this.map[key];
+    curNode.val[1] = value;
+    curNode.prev.next = curNode.next;
+    curNode.next.prev = curNode.prev;
+    curNode.prev = this.end.prev;
+    curNode.next = this.end;
+    this.end.prev.next = curNode;
+    this.end.prev = curNode;
+  } else {
+    let newNode = new DoubleLinkedList([key, value], this.end.prev, this.end);
+    this.end.prev.next = newNode;
+    this.end.prev = newNode;
+    this.map[key] = newNode;
+    this.size++;
+    if (this.size > this.capacity) {
+      let oldNode = this.start.next;
+      oldNode.next.prev = this.start;
+      this.start.next = oldNode.next;
+      oldNode.next = null;
+      oldNode.prev = null;
+      delete this.map[oldNode.val[0]];
+      this.size--;
+    }
+  }
+};
 // @lc code=end
